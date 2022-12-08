@@ -1,13 +1,12 @@
 import React from 'react';
-import logo from '@/logo.svg';
-import '@/App.css';
-import '@/rem';
+import '@/global.less';
+import '@/utils/rem';
 // @ts-ignore
 import { HashRouter as Router } from 'react-router-dom';
 import {Provider} from "react-redux";
 // @ts-ignore
 import { renderRoutes } from 'react-router-config';
-import { TabBar, NavBar } from "./components/Layouts";
+import { TabBar, NavBar } from "@/components/Layouts";
 import store from "./store"
 import routes from './routes'
 function App() {

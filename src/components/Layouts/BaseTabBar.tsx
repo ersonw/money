@@ -14,73 +14,76 @@ function BaseTabBar(props: any) {
     const [hidden, setHidden] = useState(false)
 
     let pathName = props.location.pathname
+    const pathNameShow = [
+        '/',
+        '/mine',
+    ];
 
     useEffect(() => {
-        if (pathName === '/home' && pathName === '/mine') {
+        if (!pathNameShow.includes(pathName)) {
             setHidden(true)
         } else {
-            if (pathName === '/home') {
-                setSelectedTab('homeTab')
-            }
-            if (pathName === '/mine') {
-                setSelectedTab('mineTab')
-            }
+            setSelectedTab(pathName)
         }
     }, [pathName])
 
-    const cdnUrl = '//rs1.solution9.net/nft'
-
     return (
-        <div style={{position: 'fixed', width: '100%', bottom: 0, zIndex: 99}}>
-            {/*<TabBar*/}
-            {/*    unselectedTintColor={"#999999"}*/}
-            {/*    tintColor={"#FFFFFF"}*/}
-            {/*    barTintColor={"#353535"}*/}
-            {/*    hidden={hidden}*/}
-            {/*    height={60}>*/}
-            {/*    <TabBar.Item*/}
-            {/*        icon={<div style={{*/}
-            {/*            width: '28px',*/}
-            {/*            height: '28px',*/}
-            {/*            background: `url(${home_0}) center center /  26px 26px no-repeat`*/}
-            {/*        }}*/}
-            {/*        />}*/}
-            {/*        selectedIcon={<div style={{*/}
-            {/*            width: '28px',*/}
-            {/*            height: '28px',*/}
-            {/*            background: `url(${home_1}) center center /  26px 26px no-repeat`*/}
-            {/*        }}*/}
-            {/*        />}*/}
-            {/*        title="首页"*/}
-            {/*        key="home"*/}
-            {/*        selected={selectedTab === 'homeTab'}*/}
-            {/*        onPress={() => {*/}
-            {/*            props.history.push({pathname: '/home'})*/}
-            {/*            setSelectedTab('homeTab')*/}
-            {/*        }}*/}
-            {/*    />*/}
-            {/*    <TabBar.Item*/}
-            {/*        icon={<div style={{*/}
-            {/*            width: '28px',*/}
-            {/*            height: '28px',*/}
-            {/*            background: `url(${mine_0}) center center /  26px 26px no-repeat`*/}
-            {/*        }}*/}
-            {/*        />}*/}
-            {/*        selectedIcon={<div style={{*/}
-            {/*            width: '28px',*/}
-            {/*            height: '28px',*/}
-            {/*            background: `url(${mine_1}) center center /  26px 26px no-repeat`*/}
-            {/*        }}*/}
-            {/*        />}*/}
-            {/*        title="我的"*/}
-            {/*        key="mine"*/}
-            {/*        selected={selectedTab === 'mineTab'}*/}
-            {/*        onPress={() => {*/}
-            {/*            props.history.push({pathname: '/mine'})*/}
-            {/*            setSelectedTab('mineTab')*/}
-            {/*        }}*/}
-            {/*    />*/}
-            {/*</TabBar>*/}
+        <div style={{position: 'fixed', width: '100%', bottom: 0, zIndex: 99, justifyContent:'center',alignItems: 'center',}}>
+            {!hidden&&(
+                <
+                    // @ts-ignore
+                    TabBar
+                    unselectedTintColor={"#999999"}
+                    tintColor={"#FFFFFF"}
+                    barTintColor={"#353535"}
+                    // swipeable={true}
+                    // hidden={hidden}
+                    // tabBarPosition={'bottom'}
+                >
+                    <TabBar.Item
+                        icon={<div style={{
+                            width: '28px',
+                            height: '28px',
+                            background: `url(${home_0}) center center /  26px 26px no-repeat`
+                        }}
+                        />}
+                        selectedIcon={<div style={{
+                            width: '28px',
+                            height: '28px',
+                            background: `url(${home_1}) center center /  26px 26px no-repeat`
+                        }}
+                        />}
+                        title="首页"
+                        key="home"
+                        selected={selectedTab === '/'}
+                        onPress={() => {
+                            props.history.push({pathname: '/'})
+                            setSelectedTab('/')
+                        }}
+                    />
+                    <TabBar.Item
+                        icon={<div style={{
+                            width: '28px',
+                            height: '28px',
+                            background: `url(${mine_0}) center center /  26px 26px no-repeat`
+                        }}
+                        />}
+                        selectedIcon={<div style={{
+                            width: '28px',
+                            height: '28px',
+                            background: `url(${mine_1}) center center /  26px 26px no-repeat`
+                        }}
+                        />}
+                        title="我的"
+                        key="mine"
+                        selected={selectedTab === '/mine'}
+                        onPress={() => {
+                            props.history.push({pathname: '/mine'})
+                            setSelectedTab('/mine')
+                        }}
+                    />
+                </TabBar>
+            )}
         </div>
     )
 }
