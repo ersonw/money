@@ -2,53 +2,48 @@
 import React, {useState, useEffect} from 'react';
 // @ts-ignore
 import {withRouter} from 'react-router-dom'
+import styles from  "./NavBar.less";
 import "./NavBar.less";
 import Auth from "@/utils/auth";
+import routes from "@/routes";
 
 const BaseNavBar = (props: { history: any; location: any; match: any; }) =>{
 
-    console.log(props);
+    // console.log(props);
     const {history,location} = props;
-    const {state} = location;
-    const { title } = state;
+    let {pathname} = location;
 
-    const [navBarTitle, setNavBarTitle] = useState('test')
+    const [navBarTitle, setNavBarTitle] = useState('')
     const [hiddenNavBar, setHiddenNavBar] = useState(true)
     const [hiddenShare, setHiddenShare] = useState(true)
+    const [hiddenBack, setHiddenBack] = useState(true)
     const [hiddenTitle, setHiddenTitle] = useState(true)
 
-    let pathName = location.pathname
-
-    const isHiddenNavBar = ['/home',];
-    const isHiddenTitle = ['/mine1'];
-    const isShowShare = ['/indexDetail'];
-
-    useEffect(()=>{
-        setNavBarTitle(title);
-    },[title]);
     useEffect(() => {
-        if (pathName!=='/login'&&!Auth.get()){
-            // history.push('/login',{title: '注册/登录'});
+        if (pathname!=='/login'&&!Auth.get()){
             history.push({
                 pathname: '/login',
                 search: `?t=${new Date().getTime()}`,
-                state: {title: '注册/登录'},
             });
             return ;
         }
-        if (!isHiddenNavBar.includes(pathName)) {
-            setHiddenNavBar(false);
-        }
-        if (!isHiddenTitle.includes(pathName)) {
-            setHiddenTitle(false);
-        }
-        if (!isShowShare.includes(pathName)) {
-            setHiddenShare(false);
+        const index = routes.findIndex((route) => route.path === pathname);
+        if (index > -1) {
+            const { header } = routes[index];
+            if (header){
+                setHiddenNavBar(false);
+                if (header.title){
+                    setNavBarTitle(header.title);
+                }
+                setHiddenTitle(!header.showTitle);
+                setHiddenBack(!header.showBack);
+                setHiddenShare(!header.showShare);
+            }
         }
         return () => {
-            pathName = ''
+            pathname = '';
         };
-    }, [pathName])
+    }, [pathname])
 
 
     const handleBack = () => {
@@ -62,17 +57,17 @@ const BaseNavBar = (props: { history: any; location: any; match: any; }) =>{
     return (
         <div>
             {!hiddenNavBar&&(
-                <div className='base-nav-none-bar' style={{display: 'none'}}>
-                    <div className='base-nav-bar' style={{display: 'none'}}>
-                        <div className='base-nav-bar-left-btn' style={{display: 'none'}} onClick={() => handleBack()}></div>
+                <div className="base-nav-none-bar">
+                    <div className="base-nav-bar">
+                        <div className='base-nav-bar-left-btn' onClick={() => handleBack()}></div>
                         {!hiddenTitle&&(
-                            <div className='base-nav-bar-title' style={{display: 'none'}}> {navBarTitle} </div>
+                            <div className='base-nav-bar-title' > {navBarTitle} </div>
                         )}
                         {!hiddenShare&&(
-                            <div className='base-nav-bar-right-btn' style={{display: 'none'}}
+                            <div className='base-nav-bar-right-btn'
                                  onClick={() => handleShare()}></div>
                         )}
-                        <div className='base-nav-bar-right-none-btn' style={{display: 'none'}}></div>
+                        <div className='base-nav-bar-right-none-btn'></div>
                     </div>
                 </div>
             )}

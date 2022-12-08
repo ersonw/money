@@ -67,12 +67,15 @@ const useTailwind = fs.existsSync(
 const swSrc = paths.swSrc;
 
 // style files regexes
-const cssRegex = /\.css$/;
-const cssModuleRegex = /\.module\.css$/;
-const sassRegex = /\.(scss|sass)$/;
-const sassModuleRegex = /\.module\.(scss|sass)$/;
-const lessRegex = /\.less$/;
-const lessModuleRegex = /\.module\.less$/;
+const cssRegex = /\.css$/
+const cssModuleRegex = /\.module\.css$/
+const sassRegex = /\.(scss|sass)$/
+const sassModuleRegex = /\.module\.(scss|sass)$/
+
+const lessRegex = /\.less$/ // 新添加的
+const lessModuleRegex = /\.module\.less$/ // 新添加的
+
+
 
 const hasJsxRuntime = (() => {
     if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
@@ -106,7 +109,7 @@ module.exports = function (webpackEnv) {
     const shouldUseReactRefresh = env.raw.FAST_REFRESH;
 
     // common function to get style loaders
-    const getStyleLoaders = (cssOptions, preProcessor) => {
+    const getStyleLoaders = (cssOptions, preProcessor,lessOptions) => {
         const loaders = [
             isEnvDevelopment && require.resolve('style-loader'),
             isEnvProduction && {
@@ -121,6 +124,10 @@ module.exports = function (webpackEnv) {
                 loader: require.resolve('css-loader'),
                 options: cssOptions,
             },
+            // {
+            //     loader: require.resolve('less-loader'),
+            //     options: lessOptions,
+            // },
             {
                 // Options for PostCSS as we reference these options twice
                 // Adds vendor prefixing based on your specified browser support in
@@ -503,42 +510,56 @@ module.exports = function (webpackEnv) {
                                 },
                             }),
                         },
+                        // {
+                        //     test: lessRegex,
+                        //     exclude: lessModuleRegex,
+                        //     use: getStyleLoaders(
+                        //         {
+                        //             importLoaders: 2,
+                        //             sourceMap: isEnvProduction && shouldUseSourceMap,
+                        //             // modules: true,
+                        //             // modules: {
+                        //             //     getLocalIdent: getCSSModuleLocalIdent,
+                        //             // },
+                        //         },
+                        //         'less-loader'
+                        //     ),
+                        //     sideEffects: true,
+                        // },
+                        // {
+                        //     test: lessModuleRegex,
+                        //     use: getStyleLoaders(
+                        //         {
+                        //             importLoaders: 2,
+                        //             sourceMap: isEnvProduction && shouldUseSourceMap,
+                        //             modules: true,
+                        //             getLocalIdent: getCSSModuleLocalIdent,
+                        //         },
+                        //         'less-loader'
+                        //     )
+                        // },
                         {
-
-                            test: lessRegex,
-
-                            exclude: lessModuleRegex,
-
-                            use: getStyleLoaders(
+                            test: /\.(css|less)$/,
+                            exclude: /node_modules\.(css|less)/,
+                            use: [
+                                require.resolve('style-loader'),
                                 {
-                                    importLoaders: 2,
-                                    // modules: true, 如果仅打开cssModule  那么原类名 将会没有前缀，无法与自己的样式类名关联，所以下边做法可取
-                                    modules: {
-                                        localIdentName: '[local]_[hash:base64:5]',
+                                    loader: require.resolve('css-loader'),
+                                    options: {
+                                        importLoaders: 2,
+                                        // modules: {
+                                        //     getLocalIdent: getCSSModuleLocalIdent,
+                                        // },
                                     },
-                                    sourceMap: isEnvProduction && shouldUseSourceMap,
                                 },
-                                'less-loader'
-                            ),
-
-                            sideEffects: true,
-
-                        },
-
-                        {
-
-                            test: lessModuleRegex,
-
-                            use: getStyleLoaders(
                                 {
-                                    importLoaders: 2,
-                                    sourceMap: isEnvProduction && shouldUseSourceMap,
-                                    modules: true,
-                                    getLocalIdent: getCSSModuleLocalIdent,
+                                    loader: require.resolve('less-loader'), // compiles Less to LESS
+                                    options: {
+                                        lessOptions: {
+                                        },
+                                    },
                                 },
-                                'less-loader'
-                            ),
-
+                            ],
                         },
                         // Opt-in support for SASS (using .scss or .sass extensions).
                         // By default we support SASS Modules with the
@@ -764,7 +785,7 @@ module.exports = function (webpackEnv) {
             !disableESLintPlugin &&
             new ESLintPlugin({
                 // Plugin options
-                extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
+                extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx',],
                 formatter: require.resolve('react-dev-utils/eslintFormatter'),
                 eslintPath: require.resolve('eslint'),
                 failOnError: !(isEnvDevelopment && emitErrorsAsWarnings),
