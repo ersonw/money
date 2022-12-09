@@ -124,10 +124,6 @@ module.exports = function (webpackEnv) {
                 loader: require.resolve('css-loader'),
                 options: cssOptions,
             },
-            // {
-            //     loader: require.resolve('less-loader'),
-            //     options: lessOptions,
-            // },
             {
                 // Options for PostCSS as we reference these options twice
                 // Adds vendor prefixing based on your specified browser support in
@@ -186,6 +182,7 @@ module.exports = function (webpackEnv) {
                 {
                     loader: require.resolve(preProcessor),
                     options: {
+                        ...lessOptions,
                         sourceMap: true,
                     },
                 }
@@ -510,56 +507,31 @@ module.exports = function (webpackEnv) {
                                 },
                             }),
                         },
-                        // {
-                        //     test: lessRegex,
-                        //     exclude: lessModuleRegex,
-                        //     use: getStyleLoaders(
-                        //         {
-                        //             importLoaders: 2,
-                        //             sourceMap: isEnvProduction && shouldUseSourceMap,
-                        //             // modules: true,
-                        //             // modules: {
-                        //             //     getLocalIdent: getCSSModuleLocalIdent,
-                        //             // },
-                        //         },
-                        //         'less-loader'
-                        //     ),
-                        //     sideEffects: true,
-                        // },
-                        // {
-                        //     test: lessModuleRegex,
-                        //     use: getStyleLoaders(
-                        //         {
-                        //             importLoaders: 2,
-                        //             sourceMap: isEnvProduction && shouldUseSourceMap,
-                        //             modules: true,
-                        //             getLocalIdent: getCSSModuleLocalIdent,
-                        //         },
-                        //         'less-loader'
-                        //     )
-                        // },
                         {
-                            test: /\.(css|less)$/,
-                            exclude: /node_modules\.(css|less)/,
-                            use: [
-                                require.resolve('style-loader'),
+                            test: lessRegex,
+                            exclude: lessModuleRegex,
+                            use: getStyleLoaders(
                                 {
-                                    loader: require.resolve('css-loader'),
-                                    options: {
-                                        importLoaders: 2,
-                                        // modules: {
-                                        //     getLocalIdent: getCSSModuleLocalIdent,
-                                        // },
+                                    importLoaders: 2,
+                                    sourceMap: isEnvProduction && shouldUseSourceMap,
+                                },
+                                'less-loader'
+                            ),
+                            sideEffects: true,
+                        },
+                        {
+                            test: lessModuleRegex,
+                            use: getStyleLoaders(
+                                {
+                                    importLoaders: 2,
+                                    sourceMap: isEnvProduction && shouldUseSourceMap,
+                                    // modules: true,
+                                    modules: {
+                                        getLocalIdent: getCSSModuleLocalIdent,
                                     },
                                 },
-                                {
-                                    loader: require.resolve('less-loader'), // compiles Less to LESS
-                                    options: {
-                                        lessOptions: {
-                                        },
-                                    },
-                                },
-                            ],
+                                'less-loader'
+                            )
                         },
                         // Opt-in support for SASS (using .scss or .sass extensions).
                         // By default we support SASS Modules with the

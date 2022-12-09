@@ -1,56 +1,57 @@
 @import '@/global.less';
 
-
 .base-nav-none-bar {
   width: 100%;
-  height: 44px;
-  line-height: 44px;
-  background-color: @backgroundColor;
-  color: @color;
-  display: flex;
+  height: 2.4rem;
+  //line-height: 44px;
+  //background-color: @free;
+  //color: @color;
+  //display: flex;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  padding: 0px 20px 0 15px;
-  z-index: 999;
-  position:fixed;
+  padding: 0 50%;
+  //z-index: 999;
+  //position:fixed;
   top:0;
   left:0;
   right:0;
 }
 .base-nav-bar {
   width: 100%;
-  height: 44px;
-  line-height: 44px;
+  height: 2.4rem;
+  overflow: hidden;
+  flex-flow: nowrap;
+  //line-height: 44px;
   background-color: @backgroundColor;
   color: @color;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  padding: 0px 20px 0 15px;
+  padding: 0 20px 0 15px;
   z-index: 999;
   position:fixed;
   top:0;
   left:0;
   right:0;
+  border-bottom-style:solid;
+  border-bottom-color: #d5dadb;
+  border-bottom-width: .5px;
   .base-nav-bar-title {
-    font-family: PingFangSC-Medium;
+    font-family: PingFangSC-Medium, sans-serif;
     font-weight: normal;
     font-size: 16px;
     color: @color;
     letter-spacing: 1px;
     text-align: center;
-  }
-  .base-nav-bar-left-btn {
-    width: 24px;
-    height: 24px;
-    background: url('~@/assets/images/icons/back.png') center center /  24px 24px no-repeat;
-  }
-  .base-nav-bar-right-btn {
-    width: 24px;
-    height: 24px;
-    background: url('~@/assets/images/icons/share.png') center center /  24px 24px no-repeat;
+    //文字不可选
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
   .base-nav-bar-right-none-btn {
     width: 24px;

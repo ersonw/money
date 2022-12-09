@@ -6,6 +6,7 @@ import styles from  "./NavBar.less";
 import "./NavBar.less";
 import Auth from "@/utils/auth";
 import routes from "@/routes";
+import {LeftOutline,SendOutline}  from 'antd-mobile-icons'
 
 const BaseNavBar = (props: { history: any; location: any; match: any; }) =>{
 
@@ -28,8 +29,8 @@ const BaseNavBar = (props: { history: any; location: any; match: any; }) =>{
             return ;
         }
         const index = routes.findIndex((route) => route.path === pathname);
-        if (index > -1) {
-            const { header } = routes[index];
+        if (index > -1&&(routes[index] as any).header) {
+            const { header } = (routes[index] as any);
             if (header){
                 setHiddenNavBar(false);
                 if (header.title){
@@ -55,23 +56,31 @@ const BaseNavBar = (props: { history: any; location: any; match: any; }) =>{
     }
 
     return (
-        <div>
+        <>
             {!hiddenNavBar&&(
                 <div className="base-nav-none-bar">
                     <div className="base-nav-bar">
-                        <div className='base-nav-bar-left-btn' onClick={() => handleBack()}></div>
+                        {hiddenBack?(
+                            <div className='base-nav-bar-right-none-btn'></div>
+                        ):(
+                            <LeftOutline
+                                onClick={handleBack}
+                            />
+                        )}
                         {!hiddenTitle&&(
                             <div className='base-nav-bar-title' > {navBarTitle} </div>
                         )}
-                        {!hiddenShare&&(
-                            <div className='base-nav-bar-right-btn'
-                                 onClick={() => handleShare()}></div>
+                        {hiddenShare?(
+                            <div className='base-nav-bar-right-none-btn'></div>
+                            ):(
+                            <SendOutline
+                                onClick={handleShare}
+                            />
                         )}
-                        <div className='base-nav-bar-right-none-btn'></div>
                     </div>
                 </div>
             )}
-        </div>
+        </>
     )
 }
 

@@ -1,9 +1,9 @@
 import React from 'react'
 import Banner from "@/components/Banner"
-import styles from './index.less';
+import './index.less';
 export default function Home() {
   return (
-    <div className={styles.box}>
+    <div className="box">
       <Banner />
       <div>
         home
