@@ -27,7 +27,7 @@ const routes = [
       title: "注册/登录",
       showTitle: true,
       showBack: true,
-      showShare: true,
+      showShare: false,
     },
     // render: (props: any)=>(<Login {...props} />)
     component: Login,

@@ -4,6 +4,8 @@ import React, {useState, useEffect} from 'react';
 import logo from "@/assets/logo.png";
 import {Input} from "antd-mobile/es/components/input/input";
 import "antd-mobile/es/components/input/input.css";
+import "antd-mobile/es/components/button/button.css";
+import {Button} from "antd-mobile/es/components/button/button";
 
 const Login = (props: any)=>{
     // console.log(props);
@@ -75,6 +77,9 @@ const Login = (props: any)=>{
                     />
                     <span className='sms-bnt'>获取验证码</span>
                 </div>
+                <Button
+                    className='submit-bnt'
+                >登录/注册</Button>
             </div>
         </div>
     );

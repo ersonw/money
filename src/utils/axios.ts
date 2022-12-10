@@ -30,7 +30,7 @@ service.interceptors.request.use(config => {
   const token = auth.get();
   if (token) {
     // @ts-ignore
-    config.headers["token"] = token; // 让每个请求携带自定义 token 请根据实际情况自行修改
+    config.headers["X-Token"] = token; // 让每个请求携带自定义 token 请根据实际情况自行修改
   }
   if (config.method === "post") {
     // @ts-ignore
