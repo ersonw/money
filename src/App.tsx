@@ -9,8 +9,10 @@ import { renderRoutes } from 'react-router-config';
 import { TabBar, NavBar } from "@/components/Layouts";
 import store from "./store"
 import routes from './routes'
+import Toast from "@/components/Toast";
 function App() {
-  return (
+
+    return (
       <Provider store={store}>
         <Router>
           <div className="app-main">

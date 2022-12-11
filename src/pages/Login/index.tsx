@@ -6,13 +6,38 @@ import {Input} from "antd-mobile/es/components/input/input";
 import "antd-mobile/es/components/input/input.css";
 import "antd-mobile/es/components/button/button.css";
 import {Button} from "antd-mobile/es/components/button/button";
+import http from "@/utils/http";
 
+const countDown=({setCount,setCountTime}: any)=>{
+    let countTime = 120;
+    const interval = setInterval(()=>{
+        if (countTime > 1){
+            countTime--;
+            setCountTime(countTime);
+        }else{
+            setCountTime(120);
+            setCount(false);
+            clearInterval(interval);
+        }
+    },1000);
+}
 const Login = (props: any)=>{
     // console.log(props);
     const [username,setUsername] =useState('');
     const [password,setPassword] =useState('');
     const [usernameError,setUsernameError] =useState(false);
     const [passwordError,setPasswordError] =useState(false);
+    const [count,setCount] =useState(false);
+    const [countTime,setCountTime] =useState(120);
+
+
+    const sendSms = async ()=>{
+        const {id} = await http.get(`/api/login/${username}`);
+        if (id){
+            setCount(true);
+            countDown({setCountTime, setCount});
+        }
+    };
     return (
         <div className='container'>
             <div className='logo-box'>
@@ -75,7 +100,18 @@ const Login = (props: any)=>{
                             }
                         }}
                     />
-                    <span className='sms-bnt'>获取验证码</span>
+                    <span
+                        className='sms-bnt'
+                        style={{
+                            color: count?'gray':'rgb(255, 68, 0)',
+                            borderColor: count?'gray':'rgb(255, 68, 0)',
+                        }}
+                        onClick={()=>{
+                            if (username&&!usernameError&&!count){
+                                sendSms();
+                            }
+                        }}
+                    >{count?`重新发送${countTime}`:'获取验证码'}</span>
                 </div>
                 <Button
                     className='submit-bnt'

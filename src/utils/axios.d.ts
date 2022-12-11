@@ -1,6 +1,8 @@
 import axios from "axios";
 import qs from "qs";
 import auth from "./auth";
+// import Toast from "@/components/Toast";
+import Toast from "antd-mobile";
 
 const service = axios.create({
   baseURL: process.env.API, // api base_url
@@ -14,14 +16,28 @@ const err = (error: { response: { status: number; }; message: string | string[];
     if (errStatus.includes(error.response.status)) {
       // 退出
     } else {
-      console.log('服务异常，请刷新重试!')
+      // console.log('服务异常，请刷新重试!')
+      Toast.show({
+        content: '服务异常，请刷新重试!',
+        position: 'top',
+        afterClose: () => {
+          console.log('after')
+        },
+      })
     }
   } else {
     // 请求超时
     const isTimeout = error.message.includes("timeout");
-    console.log(
-      isTimeout ? "请求已超时，请刷新或检查互联网连接" : "请检查网络是否已连接"
-    );
+    // console.log(
+    //   isTimeout ? "请求已超时，请刷新或检查互联网连接" : "请检查网络是否已连接"
+    // );
+    Toast.show({
+      content: isTimeout ? "请求已超时，请刷新或检查互联网连接" : "请检查网络是否已连接",
+      position: 'top',
+      afterClose: () => {
+        console.log('after')
+      },
+    })
   }
   return Promise.reject(error);
 };
@@ -49,7 +65,18 @@ service.interceptors.response.use(response => {
   if (response.config.responseType === "blob") {
     return response;
   }
-  return response.data;
+  const {code,message,data} = response.data;
+  if (message){
+    Toast.clear();
+    Toast.show({
+      content: message,
+      position: 'top',
+      afterClose: () => {
+        console.log('after')
+      },
+    });
+  }
+  return data;
 }, err);
 
 export default service;

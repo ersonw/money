@@ -20,12 +20,11 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["src/*"]
     }
   },
 //  "extends": "./paths.json",
   "include": [
     "src",
-    "src/react-app-env.d.ts",
   ]
 }
