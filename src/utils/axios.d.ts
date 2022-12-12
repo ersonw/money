@@ -2,10 +2,10 @@ import axios from "axios";
 import qs from "qs";
 import auth from "./auth";
 // import Toast from "@/components/Toast";
-import Toast from "antd-mobile";
+import {Toast} from "antd-mobile";
 
 const service = axios.create({
-  baseURL: process.env.API, // api base_url
+  baseURL: process.env.API || 'http://172.21.68.12:8080', // api base_url
   timeout: 10000 // 请求超时时间
 });
 
@@ -21,7 +21,7 @@ const err = (error: { response: { status: number; }; message: string | string[];
         content: '服务异常，请刷新重试!',
         position: 'top',
         afterClose: () => {
-          console.log('after')
+          // console.log('after')
         },
       })
     }
@@ -35,7 +35,7 @@ const err = (error: { response: { status: number; }; message: string | string[];
       content: isTimeout ? "请求已超时，请刷新或检查互联网连接" : "请检查网络是否已连接",
       position: 'top',
       afterClose: () => {
-        console.log('after')
+        // console.log('after')
       },
     })
   }
@@ -67,12 +67,12 @@ service.interceptors.response.use(response => {
   }
   const {code,message,data} = response.data;
   if (message){
-    Toast.clear();
     Toast.show({
+      icon: code!==200?'fail':'success',
       content: message,
-      position: 'top',
+      // position: 'top',
       afterClose: () => {
-        console.log('after')
+        // console.log('after')
       },
     });
   }

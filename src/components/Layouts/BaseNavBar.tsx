@@ -2,32 +2,29 @@
 import React, {useState, useEffect} from 'react';
 // @ts-ignore
 import {withRouter} from 'react-router-dom'
-import styles from  "./NavBar.less";
 import "./NavBar.less";
 import Auth from "@/utils/auth";
 import routes from "@/routes";
 import {LeftOutline,SendOutline}  from 'antd-mobile-icons'
+import qs from "qs";
+import MaskLoading from "@/components/MaskLoading";
 
 const BaseNavBar = (props: { history: any; location: any; match: any; }) =>{
 
     // console.log(props);
     const {history,location} = props;
-    let {pathname} = location;
+    let {pathname,search} = location;
 
-    const [navBarTitle, setNavBarTitle] = useState('')
-    const [hiddenNavBar, setHiddenNavBar] = useState(true)
-    const [hiddenShare, setHiddenShare] = useState(true)
-    const [hiddenBack, setHiddenBack] = useState(true)
-    const [hiddenTitle, setHiddenTitle] = useState(true)
+    const [navBarTitle, setNavBarTitle] = useState('');
+    const [hiddenNavBar, setHiddenNavBar] = useState(true);
+    const [hiddenShare, setHiddenShare] = useState(true);
+    const [hiddenBack, setHiddenBack] = useState(true);
+    const [hiddenTitle, setHiddenTitle] = useState(true);
+    const [loading,setLoading] =useState(false);
 
     useEffect(() => {
-        if (pathname!=='/login'&&!Auth.get()){
-            history.push({
-                pathname: '/login',
-                search: `?t=${new Date().getTime()}`,
-            });
-            return ;
-        }
+        setLoading(true);
+        setHiddenNavBar(true);
         const index = routes.findIndex((route) => route.path === pathname);
         if (index > -1&&(routes[index] as any).header) {
             const { header } = (routes[index] as any);
@@ -41,10 +38,32 @@ const BaseNavBar = (props: { history: any; location: any; match: any; }) =>{
                 setHiddenShare(!header.showShare);
             }
         }
+        if (pathname==='/login'){
+            // setLoading(true);
+            if (Auth.get()){
+                let surl = '/';
+                if (search){
+                    const _q = qs.parse(search.substring(1));
+                    const { url } = _q;
+                    if (url){
+                        surl = (url as any)
+                    }
+                }
+                history.push({
+                    pathname: surl,
+                });
+            }
+        }else if (!Auth.get()){
+            history.push({
+                pathname: '/login',
+                search: `?url=${pathname}`,
+            });
+        }
+        setTimeout(()=>setLoading(false),500);
         return () => {
             pathname = '';
         };
-    }, [pathname])
+    }, [pathname]);
 
 
     const handleBack = () => {
@@ -80,6 +99,7 @@ const BaseNavBar = (props: { history: any; location: any; match: any; }) =>{
                     </div>
                 </div>
             )}
+            <MaskLoading loading={loading} />
         </>
     )
 }

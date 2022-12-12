@@ -5,6 +5,7 @@ module.exports = {
     "@babel/plugin-proposal-class-properties",
     "@babel/plugin-proposal-private-methods",
     "@babel/plugin-proposal-private-property-in-object",
-    ["import", { libraryName: "antd-mobile", style: true }] // `style: true | css` 会加载 less 文件
+    // ["import", { libraryName: "antd-mobile", style: "css"}]
+    // ["import", { libraryName: "antd-mobile", style: true}]
   ]
 };

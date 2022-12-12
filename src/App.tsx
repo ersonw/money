@@ -9,7 +9,7 @@ import { renderRoutes } from 'react-router-config';
 import { TabBar, NavBar } from "@/components/Layouts";
 import store from "./store"
 import routes from './routes'
-import Toast from "@/components/Toast";
+import Footer from "@/components/Layouts/Footer";
 function App() {
 
     return (
@@ -20,6 +20,7 @@ function App() {
             <div className='app-content'>
               {renderRoutes(routes)}
             </div>
+            <Footer />
             <TabBar />
           </div>
         </Router>

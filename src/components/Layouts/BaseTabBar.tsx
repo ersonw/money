@@ -1,17 +1,13 @@
 import React, {useState, useEffect} from 'react'
 // @ts-ignore
 import {useHistory, withRouter} from "react-router-dom";
-import "antd-mobile/es/components/tab-bar/tab-bar.css";
-import {TabBar,TabBarItem} from 'antd-mobile/es/components/tab-bar/tab-bar';
-import home_0 from "@/assets/images/icons/home_0.png";
-import home_1 from "@/assets/images/icons/home_1.png";
-import mine_0 from "@/assets/images/icons/mine_0.png";
-import mine_1 from "@/assets/images/icons/mine_1.png";
+import {TabBar} from 'antd-mobile';
+import {UserContactOutline} from 'antd-mobile-icons';
+import './TabBar.less';
+function BaseTabBar(props: { history: any; location: any; match: any; }) {
 
-function BaseTabBar(props: any) {
-
-    const [selectedTab, setSelectedTab] = useState('homeTab')
-    const [selectedKey, setSelectedKey] = useState('');
+    const { history } = props;
+    const [selectedKey, setSelectedKey] = useState('/');
     const [hidden, setHidden] = useState(false);
 
     let pathName = props.location.pathname
@@ -19,48 +15,45 @@ function BaseTabBar(props: any) {
         '/',
         '/mine',
     ];
-
+    const handler = (e: React.SetStateAction<string>)=>{
+        setSelectedKey(e);
+        history.push({pathname: e});
+    };
     useEffect(() => {
         if (!pathNameShow.includes(pathName)) {
-            setHidden(true)
+            setHidden(true);
         } else {
-            setSelectedTab(pathName)
+            setHidden(false);
         }
     }, [pathName])
 
     return (
-        <div style={{position: 'fixed', width: '100%', bottom: 0, zIndex: 99, justifyContent:'center',alignItems: 'center',}}>
+        <>
             {!hidden&&(
-                <TabBar
-                    activeKey={selectedKey}
-                    onChange={setSelectedKey}
-                >
-                    <TabBarItem
-                        icon={<div style={{
-                            width: '28px',
-                            height: '28px',
-                            background: `url(${home_0}) center center /  26px 26px no-repeat`
-                        }}
-                        />}
-                        title="首页"
-                        key="home"
-                        badge={1}
-                    />
-                    <TabBarItem
-                        icon={<div style={{
-                            width: '28px',
-                            height: '28px',
-                            background: `url(${mine_0}) center center /  26px 26px no-repeat`
-                        }}
-                        />}
-                        title="我的"
-                        key="mine"
-                        badge={2}
-                    />
-                </TabBar>
+                <div className='tab-bar'>
+                    {!hidden&&(
+                        <TabBar
+                            activeKey={selectedKey}
+                            onChange={handler}
+                        >
+                            <TabBar.Item
+                                icon={<UserContactOutline />}
+                                title="首页"
+                                key="/"
+                                // badge={1}
+                            />
+                            <TabBar.Item
+                                icon={<UserContactOutline />}
+                                title="我的"
+                                key="/mine"
+                                // badge={2}
+                            />
+                        </TabBar>
+                    )}
+                </div>
             )}
-        </div>
-    )
+        </>
+    );
 }
 
 export default withRouter(BaseTabBar);

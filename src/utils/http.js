@@ -20,12 +20,13 @@ const http = {
       axios
         .post(url, data, config)
         .then(res => {
-          if (res.code === 200) {
-            resolve(res);
-          } else {
-            console.log(res.message)
-            reject(res);
-          }
+          resolve(res);
+          // if (res.code === 200) {
+          //   resolve(res);
+          // } else {
+          //   console.log(res.message)
+          //   reject(res);
+          // }
         })
         .catch(error => {
           reject(error);

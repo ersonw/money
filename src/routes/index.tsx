@@ -8,7 +8,8 @@ const routes = [
   {
     path: "/",
     exact: true,
-    component: Home
+    component: Home,
+    footer: true,
   },
   {
     path: "/home",
@@ -19,6 +20,7 @@ const routes = [
     path: "/mine",
     exact: true,
     component: Mine,
+    footer: true,
   },
   {
     path: "/login",
