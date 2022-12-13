@@ -10,6 +10,7 @@ import { TabBar, NavBar } from "@/components/Layouts";
 import store from "./store"
 import routes from './routes'
 import Footer from "@/components/Layouts/Footer";
+import '@/components/Icon';
 function App() {
 
     return (
@@ -20,7 +21,7 @@ function App() {
             <div className='app-content'>
               {renderRoutes(routes)}
             </div>
-            <Footer />
+            {/*<Footer />*/}
             <TabBar />
           </div>
         </Router>

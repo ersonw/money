@@ -12,11 +12,6 @@ const routes = [
     footer: true,
   },
   {
-    path: "/home",
-    exact: true,
-    component: Home
-  },
-  {
     path: "/mine",
     exact: true,
     component: Mine,

@@ -345,6 +345,11 @@ module.exports = function (webpackEnv) {
         module: {
             strictExportPresence: true,
             rules: [
+                {
+                    test: /\.ttf$/,
+                    loader: 'file-loader',
+                    include: path.resolve(__dirname, './static/media/[name].[ext]'),
+                },
                 // Handle node_modules packages that contain sourcemaps
                 shouldUseSourceMap && {
                     enforce: 'pre',

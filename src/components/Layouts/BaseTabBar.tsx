@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react'
 // @ts-ignore
 import {useHistory, withRouter} from "react-router-dom";
 import {TabBar} from 'antd-mobile';
-import {UserContactOutline} from 'antd-mobile-icons';
+// @ts-ignore
+import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import './TabBar.less';
 function BaseTabBar(props: { history: any; location: any; match: any; }) {
 
@@ -37,13 +38,25 @@ function BaseTabBar(props: { history: any; location: any; match: any; }) {
                             onChange={handler}
                         >
                             <TabBar.Item
-                                icon={<UserContactOutline />}
+                                icon={
+                                    <AntDesign
+                                        name="home"
+                                        size={24}
+                                        color="currentColor"
+                                    />
+                                }
                                 title="首页"
                                 key="/"
                                 // badge={1}
                             />
                             <TabBar.Item
-                                icon={<UserContactOutline />}
+                                icon={
+                                    <AntDesign
+                                        name="user"
+                                        size={24}
+                                        color="currentColor"
+                                    />
+                                }
                                 title="我的"
                                 key="/mine"
                                 // badge={2}
