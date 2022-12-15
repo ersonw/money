@@ -14,7 +14,7 @@ function BaseTabBar(props: { history: any; location: any; match: any; }) {
     let pathName = props.location.pathname
     const pathNameShow = [
         '/',
-        '/mine',
+        '/my',
     ];
     const handler = (e: React.SetStateAction<string>)=>{
         setSelectedKey(e);
@@ -58,7 +58,7 @@ function BaseTabBar(props: { history: any; location: any; match: any; }) {
                                     />
                                 }
                                 title="我的"
-                                key="/mine"
+                                key="/my"
                                 // badge={2}
                             />
                         </TabBar>

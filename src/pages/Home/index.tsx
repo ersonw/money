@@ -8,6 +8,7 @@ import Welfare from '@/assets/images/Welfare.png';
 import getting_Started1 from '@/assets/images/getting_Started1.png';
 import getting_Started2 from '@/assets/images/getting_Started2.png';
 import Footer from "@/components/Layouts/Footer";
+import Background from "@/components/Background";
 
 export default function Home(props: { history: any; location: any; match: any; }) {
     const {history, location} = props;
@@ -23,7 +24,7 @@ export default function Home(props: { history: any; location: any; match: any; }
 
     return (
         <>
-            <div className='home-background'/>
+            <Background />
             <div className='home-container'>
                 <div className='top-bar'>
                     <div className='top-bar-item'>

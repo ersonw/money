@@ -1,6 +1,7 @@
 import Home from "@/pages/Home"
 import Mine from "@/pages/Mine"
 import Login from "@/pages/Login";
+import My from "@/pages/My";
 
 console.log(`process.env.API: ${typeof process.env.API}`)
 
@@ -16,6 +17,11 @@ const routes = [
     exact: true,
     component: Mine,
     footer: true,
+  },
+  {
+    path: "/my",
+    exact: true,
+    component: My,
   },
   {
     path: "/login",
