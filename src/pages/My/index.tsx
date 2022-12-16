@@ -19,7 +19,11 @@ import account from '@/assets/images/icons/account.png';
 import advertise from '@/assets/images/advertise.png';
 import advertise2 from '@/assets/images/advertise2.png';
 
-const My = ()=>{
+const My = (props: { history: any; location: any; match: any; })=>{
+    const {history} = props;
+    const goSetting = ()=>{
+        history.push({pathname: '/setting'});
+    };
     return (
         <>
             <Background />
@@ -51,11 +55,13 @@ const My = ()=>{
                                 <span >Hi，下午好！</span>
                             </div>
                         </div>
-                        <AntDesign
-                            name="setting"
-                            size={33}
-                            color="white"
-                        />
+                        <div onClick={goSetting}>
+                            <AntDesign
+                                name="setting"
+                                size={33}
+                                color="white"
+                            />
+                        </div>
                     </div>
                 </div>
                 <div  className="preview">

@@ -9,12 +9,14 @@ import {LeftOutline,SendOutline}  from 'antd-mobile-icons'
 import qs from "qs";
 import MaskLoading from "@/components/MaskLoading";
 
-const BaseNavBar = (props: { history: any; location: any; match: any; }) =>{
+const BaseNavBar = ({history,location,match}: { history: any; location: any; match: any; }) =>{
 
-    // console.log(props);
-    const {history,location} = props;
+    // console.log(location);
+    // console.log(history);
+    // const {history,location,match} = props;
     let {pathname,search} = location;
 
+    const [backPath, setBackPath] = useState('');
     const [navBarTitle, setNavBarTitle] = useState('');
     const [hiddenNavBar, setHiddenNavBar] = useState(true);
     const [hiddenShare, setHiddenShare] = useState(true);
@@ -23,6 +25,9 @@ const BaseNavBar = (props: { history: any; location: any; match: any; }) =>{
     const [loading,setLoading] =useState(false);
 
     useEffect(() => {
+        if (pathname!==backPath){
+            setBackPath(pathname);
+        }
         setLoading(true);
         setHiddenNavBar(true);
         const index = routes.findIndex((route) => route.path === pathname);
@@ -67,6 +72,12 @@ const BaseNavBar = (props: { history: any; location: any; match: any; }) =>{
 
 
     const handleBack = () => {
+        if (backPath!==pathname){
+            history.push({
+                pathname: backPath,
+            });
+            return;
+        }
         history.go(-1);
     }
 

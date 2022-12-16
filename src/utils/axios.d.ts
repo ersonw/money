@@ -3,9 +3,10 @@ import qs from "qs";
 import auth from "./auth";
 // import Toast from "@/components/Toast";
 import {Toast} from "antd-mobile";
+import Auth from "./auth";
 
 const service = axios.create({
-  baseURL: process.env.API || 'http://172.21.68.12:8080', // api base_url
+  baseURL: process.env.API || '/',//'http://172.21.68.12:8080', // api base_url
   timeout: 10000 // 请求超时时间
 });
 
@@ -66,6 +67,9 @@ service.interceptors.response.use(response => {
     return response;
   }
   const {code,message,data} = response.data;
+  if(code === 201){
+    Auth.del();
+  }
   if (message){
     Toast.show({
       icon: code!==200?'fail':'success',
