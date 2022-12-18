@@ -5,6 +5,8 @@ import React, {useState} from "react";
 import AntDesign from "react-native-vector-icons/dist/AntDesign";
 import {CameraOutline} from 'antd-mobile-icons';
 import resolve from "resolve";
+import http from "@/utils/http";
+import {Md5} from "ts-md5";
 
 const Sfz = () => {
     const [name, setName] = useState("");
@@ -13,22 +15,34 @@ const Sfz = () => {
     const [hand, setHand] = useState<ImageUploadItem[]>([]);
     const [reverse, setReverse] = useState<ImageUploadItem[]>([]);
     const uploadFile = async (file: File) => {
-        return new Promise<ImageUploadItem>((resolve)=>{
-            setTimeout(()=>{
-                resolve({
-                    url: URL.createObjectURL(file),
-                });
-            },1000*3);
-        });
+        const headers: any['Content-Type'] =  "multipart/form-data;charset=UTF-8";
+        let formdata = new FormData();
+        formdata.append('file', file);
+        const data= await http.post(`/api/upload`,formdata,{headers});
+        if (!data)return {url: ''};
+        const {url} = data;
+        if (url) {
+            return  {url,}
+        }
+        return {url: ''};
+        // return new Promise<ImageUploadItem>((resolve)=>{
+        //     setTimeout(()=>{
+        //         resolve({
+        //             url: URL.createObjectURL(file),
+        //         });
+        //     },1000*3);
+        // });
     };
-    const submit = async (file: File) => {
-        return new Promise<ImageUploadItem>((resolve)=>{
-            setTimeout(()=>{
-                resolve({
-                    url: URL.createObjectURL(file),
-                });
-            },1000*3);
+    const submit = async () => {
+        Toast.show({
+            icon: 'loading',
+            content: '提交中…',
+            duration: 0,
         });
+        await http.post(`/api/details/sfz`,{},);
+        setTimeout(()=>{
+            Toast.clear();
+        },1000);
     };
     const beforeUpload = (file: File) => {
         if (file.size > 1024 * 1024) {
@@ -57,10 +71,7 @@ const Sfz = () => {
                 </Form.Item>
                 <Form.Item label='身份证正面' name='front'>
                     <ImageUploader
-                        upload={(file) => {
-                            console.log(file);
-                            return uploadFile(file);
-                        }}
+                        upload={uploadFile}
                         value={front}
                         onChange={setFront}
                         beforeUpload={beforeUpload}
@@ -73,6 +84,7 @@ const Sfz = () => {
                                 content: '是否确认删除',
                             })
                         }}
+                        accept="image/jpeg,image/jpg,image/png"
                     >
                         <div
                             className='image-picker'
@@ -99,6 +111,7 @@ const Sfz = () => {
                                 content: '是否确认删除',
                             })
                         }}
+                        accept="image/jpeg,image/jpg,image/png"
                     >
                         <div
                             className='image-picker'
@@ -125,6 +138,7 @@ const Sfz = () => {
                                 content: '是否确认删除',
                             })
                         }}
+                        accept="image/jpeg,image/jpg,image/png"
                     >
                         <div
                             className='image-picker'

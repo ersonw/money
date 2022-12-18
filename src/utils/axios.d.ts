@@ -51,8 +51,11 @@ service.interceptors.request.use(config => {
   }
   if (config.method === "post") {
     // @ts-ignore
-    if (config.headers["Content-Type"] !== "multipart/form-data") {
+    // if (config.headers["Content-Type"] !== "multipart/form-data" || config.headers["Content-Type"] !== "multipart/form-data;charset=UTF-8") {
+    if (config.headers["Content-Type"]) {
       config.data = qs.stringify(config.data);
+    }else {
+      config.headers["Content-Type"] = "multipart/form-data";
     }
   }
   return config;

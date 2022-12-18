@@ -18,7 +18,7 @@ const http = {
   post(url, data, config = {}) {
     return new Promise((resolve, reject) => {
       axios
-        .post(url, data, config)
+        .post(url, data, {...config})
         .then(res => {
           resolve(res);
           // if (res.code === 200) {
