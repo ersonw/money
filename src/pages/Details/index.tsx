@@ -4,7 +4,7 @@ import {useRef, useState} from "react";
 import Sfz from "@/pages/Details/components/Sfz";
 import Yhk from "@/pages/Details/components/Yhk";
 import Sign from "@/pages/Details/components/Sign";
-const Details = ()=>{
+const Details = ({history}: { history: any;})=>{
     const swiperRef = useRef<SwiperRef>(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const tabItems = [
@@ -37,33 +37,51 @@ const Details = ()=>{
                 activeLineMode='fixed'
                 style={{
                     '--active-title-color': 'black',
+                    '--title-font-size': '1em',
                 }}
             >
                 {tabItems.map((value,index)=>(
-                    <Tabs.Tab title={value.title} key={value.key} disabled={activeIndex!==index} />
+                    <Tabs.Tab
+                        title={value.title}
+                        key={value.key}
+                        style={{
+                            color: activeIndex>=index?'rgb(230, 126, 34)':'black',
+                            fontWeight: activeIndex===index?'bold':'',
+                        }}
+                        // disabled={activeIndex!==index}
+                    />
                 ))}
             </Tabs>
-            <Swiper
-                direction="horizontal"
-                loop
-                indicator={() => null}
-                ref={swiperRef}
-                defaultIndex={activeIndex}
-                onIndexChange={(index) => {
-                    // setActiveIndex(index);
-                    // swiperRef.current?.swipeTo(index);
-                }}
-            >
-                <Swiper.Item>
-                    <Sfz setIndex={setIndex} />
-                </Swiper.Item>
-                <Swiper.Item>
-                    <Yhk setIndex={setIndex} />
-                </Swiper.Item>
-                <Swiper.Item>
-                    <Sign setIndex={setIndex} />
-                </Swiper.Item>
-            </Swiper>
+            {/*<Swiper*/}
+            {/*    direction="horizontal"*/}
+            {/*    loop*/}
+            {/*    indicator={() => null}*/}
+            {/*    ref={swiperRef}*/}
+            {/*    defaultIndex={activeIndex}*/}
+            {/*    onIndexChange={(index) => {*/}
+            {/*        // setActiveIndex(index);*/}
+            {/*        // swiperRef.current?.swipeTo(index);*/}
+            {/*    }}*/}
+            {/*>*/}
+            {/*    <Swiper.Item>*/}
+            {/*        <Sfz setIndex={setIndex} />*/}
+            {/*    </Swiper.Item>*/}
+            {/*    <Swiper.Item>*/}
+            {/*        <Yhk setIndex={setIndex} />*/}
+            {/*    </Swiper.Item>*/}
+            {/*    <Swiper.Item>*/}
+            {/*        <Sign setIndex={setIndex} history={history} />*/}
+            {/*    </Swiper.Item>*/}
+            {/*</Swiper>*/}
+            {activeIndex===0&&(
+                <Sfz setIndex={setIndex} />
+            )}
+            {activeIndex===1&&(
+                <Yhk setIndex={setIndex} />
+            )}
+            {activeIndex===2&&(
+                <Sign setIndex={setIndex} history={history} />
+            )}
         </div>
     );
 };

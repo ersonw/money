@@ -5,6 +5,7 @@ import My from "@/pages/My";
 import Setting from "@/pages/Setting";
 import ChangePassword from "@/pages/ChangePassword";
 import Details from "@/pages/Details";
+import Apply from "@/pages/Apply";
 
 console.log(`process.env.API: ${typeof process.env.API}`)
 
@@ -66,6 +67,16 @@ const routes = [
       showBack: true,
     },
     component: Details,
+  },
+  {
+    path: "/apply",
+    exact: true,
+    header: {
+      title: "借款",
+      showTitle: true,
+      showBack: true,
+    },
+    component: Apply,
   },
 ];
 

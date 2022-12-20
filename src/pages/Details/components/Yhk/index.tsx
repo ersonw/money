@@ -14,7 +14,7 @@ const Yhk = ({setIndex,}: any) => {
     const [yhk, setYhk] = useState("");
     useEffect(()=>{
         if (!loading){
-            const {state,name,sfz,front,hand,reverse} = data;
+            const {state,name,phone,khh,yhk,} = data;
             if (state){
                 setState(state);
             }
@@ -35,7 +35,7 @@ const Yhk = ({setIndex,}: any) => {
         //     data = {};
         // };
     },[data]);
-    console.log(data);
+    // console.log(data);
     const submit = async () => {
         Toast.show({
             icon: 'loading',

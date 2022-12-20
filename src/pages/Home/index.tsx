@@ -54,6 +54,9 @@ export default function Home(props: { history: any; location: any; match: any; }
                         <span>300,000</span>
                         <button
                             className='button'
+                            onClick={()=>{
+                                history.push({pathname: '/apply'});
+                            }}
                         >立即借款
                         </button>
                     </div>
