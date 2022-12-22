@@ -1,58 +1,101 @@
-.loan-box{
-  width: 100%;
-  //height: 18em;
-  background-color: white;
-  .money{
+.borrow{
+  .loan-box{
     width: 100%;
-    text-align: center;
-    align-items: center;
-    padding: 3em 0;
-    >span{
-      font-size: 3em;
-      color: red;
-    }
-    .details-box{
-      margin: 2em 0 0;
+    //height: 18em;
+    background-color: white;
+    .money{
       width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      >div:first-child{
-        width: 87%;
+      text-align: center;
+      align-items: center;
+      padding: 3em 0;
+      >span{
+        font-size: 3em;
+        color: red;
+      }
+      .details-box{
+        margin: 2em 0 0;
+        width: 100%;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        .details{
-          >span{
-            font-size: 1.5em;
+        justify-content: center;
+        >div:first-child{
+          width: 87%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          .details{
+            >span{
+              font-size: 1.5em;
+            }
           }
         }
       }
     }
   }
-}
-.loan-slider-box{
-  margin: .5em 0;
-  background-color: white;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 1em 0 2em;
-  >div:first-child{
-    width: 90%;
-    .title{
-      margin: 1em 0;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-    }
-    .illustrate{
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      >span{
-        color: rgb(231, 76, 60);
+  .loan-slider-box{
+    margin: .5em 0;
+    background-color: white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1em 0 2em;
+    >div:first-child{
+      width: 90%;
+      .title{
+        margin: 1em 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      .illustrate{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        >span{
+          color: rgb(231, 76, 60);
+        }
       }
     }
+  }
+  .loan-month{
+    background-color: white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1em 0 2em;
+    >div:first-child{
+      width: 96%;
+      .title{
+        margin: 1em 1em;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        >span{
+          margin-left: .1em;
+          font-size: 1.2em;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  .bnt-save{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 2rem 0;
+    .bnt{
+      width: 90%;
+      background-color: #f40;
+      text-align: center;
+      border-radius: 2em;
+      color: #fff;
+      padding: .6rem 0;
+      font-weight: bold;
+      font-size: .9em;
+    }
+  }
+  .popup{
+    border-radius: 30em;
   }
 }

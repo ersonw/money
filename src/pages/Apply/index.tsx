@@ -1,14 +1,105 @@
 import './index.less';
 // @ts-ignore
 import AntDesign from "react-native-vector-icons/dist/AntDesign";
-import React, {useState} from "react";
-import {Slider} from "antd-mobile";
-const Apply = ({history,}:any)=>{
+import React, {useEffect, useState} from "react";
+import {ErrorBlock, Popup, Selector, SelectorOption, Slider, Toast} from "antd-mobile";
+import useFetchData from "@/utils/useFetchData";
+import MaskLoading from "@/components/MaskLoading";
+import http from "@/utils/http";
+
+const Apply = ({history,}: any) => {
     // history.push({pathname: '/details'});
-    const [money,setMoney] = useState(30000);
-    const [installments,setInstallments] = useState(3);
+    const [money, setMoney] = useState(0);
+    const [installments, setInstallments] = useState(3);
+    const [mini, setMini] = useState(0);
+    const [max, setMax] = useState(0);
+    const [fee, setFee] = useState(0);
+    const [stepping, setStepping] = useState(0);
+    const [name, setName] = useState('');
+    const [khh, setKhh] = useState('');
+    const [yhk, setYhk] = useState('');
+    const [visible, setVisible] = useState(false);
+    const {data,loading, onReload, error, } = useFetchData('/api/apply/get',{});
+    useEffect(()=>{
+        if (!loading){
+            const {state,mini,max,fee,stepping,name,khh,yhk} = (data as any);
+            if (state){
+                if (!state){
+                    history.push({pathname: '/details'});
+                    return;
+                }
+            }
+            if (name){
+                setName(name);
+            }
+            if (khh){
+                setKhh(khh);
+            }
+            if (yhk){
+                setYhk(yhk);
+            }
+            if (mini){
+                setMini(mini);
+                setMoney(mini);
+            }
+            if (max){
+                setMax(max);
+            }
+            if (fee){
+                setFee(fee);
+            }
+            if (stepping){
+                setStepping(stepping);
+            }
+        }
+    },[data]);
+    const options: SelectorOption<number>[] = [
+        {
+            label: '3个月',
+            value: 3,
+        },
+        {
+            label: '6个月',
+            value: 6,
+        },
+        {
+            label: '12个月',
+            value: 12,
+        },
+        {
+            label: '18个月',
+            value: 18,
+        },
+        {
+            label: '24个月',
+            value: 24,
+        },
+        {
+            label: '30个月',
+            value: 30,
+        },
+        {
+            label: '36个月',
+            value: 36,
+        },
+    ];
+    if (error){
+        return <ErrorBlock fullPage />
+    }
+    const submit = async () => {
+        setVisible(true);
+        // Toast.show({
+        //     icon: 'loading',
+        //     content: '提交中…',
+        //     // duration: 0,
+        // });
+        // const data = await http.post(`/api/apply`,{},);
+        // const {state} = data;
+        // if (state){
+        // }
+    };
     return (
-        <>
+        <div className='borrow'>
             <div className='loan-box'>
                 <div className='money'>
                     <p> 借款金额（元） </p>
@@ -25,7 +116,7 @@ const Apply = ({history,}:any)=>{
                                 <p> 到帐金额(元) </p>
                             </div>
                             <div className='details'>
-                                <span>{(money/installments+180).toFixed(0)}</span>
+                                <span>{(money/installments+money*fee).toFixed(0)}</span>
                                 <p> 每期还款(元) </p>
                             </div>
                             <div className='details'>
@@ -54,18 +145,62 @@ const Apply = ({history,}:any)=>{
                         onAfterChange={()=>{}}
                         onChange={(value: number|[number,number])=>{
                             if (typeof value === "number"){
-                                setMoney(30000+(value*1000))
+                                setMoney(mini+(value*stepping))
                             }
                         }}
                     />
                     <div className='illustrate'>
-                        <p>30000</p>
+                        <p>{mini}</p>
                         <span>拖动调整额度</span>
-                        <p>300000</p>
+                        <p>{max}</p>
                     </div>
                 </div>
             </div>
-        </>
+            <div className='loan-month'>
+                <div>
+                    <div className='title'>
+                        <AntDesign
+                            name="profile"
+                            size={18}
+                            color="currentColor"
+                        />
+                        <span>借款期限</span>
+                    </div>
+                    <Selector
+                        options={options}
+                        value={[installments]}
+                        onChange={v => {
+                            if (v.length) {
+                                setInstallments(v[0])
+                            }
+                        }}
+                    />
+                </div>
+            </div>
+            <div className='bnt-save'>
+                <div
+                    // className={`bnt ${state?'adm-tabs-tab-disabled':''}`}
+                    className={`bnt`}
+                    onClick={submit}
+                >
+                    立即申请
+                </div>
+            </div>
+            <Popup
+                visible={visible}
+                onMaskClick={() => {
+                    setVisible(false)
+                }}
+                bodyStyle={{
+                    height: '60vh',
+                    borderTopLeftRadius: '20px',
+                    borderTopRightRadius: '20px',
+            }}
+            >
+                <div className='popup'>dsadsa</div>
+            </Popup>
+            <MaskLoading loading={loading} />
+        </div>
     );
 };
 export default Apply;

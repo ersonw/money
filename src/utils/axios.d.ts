@@ -83,6 +83,9 @@ service.interceptors.response.use(response => {
       },
     });
   }
+  if(code!==200){
+    return Promise.reject(message);
+  }
   return data;
 }, err);
 
