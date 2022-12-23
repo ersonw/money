@@ -57,6 +57,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    margin: 1em 0;
     .box{
       width: 85%;
       font-size: .7rem;
@@ -66,13 +67,23 @@
         display: flex;
         justify-content: space-between;
         flex-direction: row;
-      }
-      .value-row{
-        width: 85%;
-        font-size: 1rem;
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
+        .balance{
+          text-align: center;
+          >div:first-child>div{
+            margin-left: 1em;
+          }
+          >div:nth-child(2){
+            font-size: 1.5rem;
+            font-weight: 400;
+          }
+        }
+        .recent{
+          text-align: center;
+          >div:nth-child(2){
+            font-size: 1.5rem;
+            font-weight: 400;
+          }
+        }
       }
     }
   }

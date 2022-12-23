@@ -9,7 +9,7 @@ import { renderRoutes } from 'react-router-config';
 import { TabBar, NavBar } from "@/components/Layouts";
 import store from "./store"
 import routes from './routes'
-import Footer from "@/components/Layouts/Footer";
+// import Footer from "@/components/Layouts/Footer";
 import '@/components/Icon';
 function App() {
 

@@ -2,7 +2,7 @@ import './index.less';
 // @ts-ignore
 import AntDesign from "react-native-vector-icons/dist/AntDesign";
 import React, {useEffect, useState} from "react";
-import {ErrorBlock, Popup, Selector, SelectorOption, Slider, Toast} from "antd-mobile";
+import {ErrorBlock, List, Popup, Selector, SelectorOption, Slider, Toast} from "antd-mobile";
 import useFetchData from "@/utils/useFetchData";
 import MaskLoading from "@/components/MaskLoading";
 import http from "@/utils/http";
@@ -87,16 +87,19 @@ const Apply = ({history,}: any) => {
         return <ErrorBlock fullPage />
     }
     const submit = async () => {
+        Toast.show({
+            icon: 'loading',
+            content: '提交中…',
+            // duration: 0,
+        });
+        const data = await http.post(`/api/apply`,{money,installments},);
+        const {state} = data;
+        if (state){
+            history.push({pathname: '/order'});
+        }
+    };
+    const check=()=>{
         setVisible(true);
-        // Toast.show({
-        //     icon: 'loading',
-        //     content: '提交中…',
-        //     // duration: 0,
-        // });
-        // const data = await http.post(`/api/apply`,{},);
-        // const {state} = data;
-        // if (state){
-        // }
     };
     return (
         <div className='borrow'>
@@ -116,7 +119,7 @@ const Apply = ({history,}: any) => {
                                 <p> 到帐金额(元) </p>
                             </div>
                             <div className='details'>
-                                <span>{(money/installments+money*fee).toFixed(0)}</span>
+                                <span>{(money/installments+(money*fee*30)).toFixed(0)}</span>
                                 <p> 每期还款(元) </p>
                             </div>
                             <div className='details'>
@@ -181,23 +184,62 @@ const Apply = ({history,}: any) => {
                 <div
                     // className={`bnt ${state?'adm-tabs-tab-disabled':''}`}
                     className={`bnt`}
-                    onClick={submit}
+                    onClick={check}
                 >
                     立即申请
                 </div>
             </div>
             <Popup
                 visible={visible}
-                onMaskClick={() => {
-                    setVisible(false)
-                }}
+                onMaskClick={() => setVisible(false)}
                 bodyStyle={{
                     height: '60vh',
                     borderTopLeftRadius: '20px',
                     borderTopRightRadius: '20px',
             }}
             >
-                <div className='popup'>dsadsa</div>
+                <div className='popup'>
+                    <div className='header'>
+                        <span>核对订单</span>
+                        <AntDesign
+                            name="closecircleo"
+                            size={18}
+                            color="#cccccc"
+                            onClick={() => setVisible(false)}
+                        />
+                    </div>
+                    <List>
+                        <List.Item>
+                            <div>借款金额</div>
+                            <div>{money}元</div>
+                        </List.Item>
+                        <List.Item>
+                            <div>还款金额</div>
+                            <div>{(money/installments+(money*fee*30))*installments}元</div>
+                        </List.Item>
+                        <List.Item>
+                            <div>借款期限</div>
+                            <div>{installments}个月</div>
+                        </List.Item>
+                        <List.Item>
+                            <div>借款人</div>
+                            <div>{name}</div>
+                        </List.Item>
+                        <List.Item>
+                            <div>收款银行</div>
+                            <div>{khh}</div>
+                        </List.Item>
+                        <List.Item>
+                            <div>收款卡号</div>
+                            <div>{yhk}</div>
+                        </List.Item>
+                    </List>
+                    <div className='bnt-box'>
+                        <div className='bnt' onClick={submit}>
+                            确认借款
+                        </div>
+                    </div>
+                </div>
             </Popup>
             <MaskLoading loading={loading} />
         </div>

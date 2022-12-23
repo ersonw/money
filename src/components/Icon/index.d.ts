@@ -22,6 +22,10 @@ const IconsCSS = `
   src: url(${Entypo_ttf});
   font-family: Entypo;
 }
+@font-face {
+  src: url(${Feather_ttf});
+  font-family: Feather;
+}
 `;
 
 const style = document.createElement('style');

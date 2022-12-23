@@ -46,7 +46,7 @@ const BaseNavBar = ({history,location,match}: { history: any; location: any; mat
         if (pathname==='/login'){
             // setLoading(true);
             if (Auth.get()){
-                let surl = '/';
+                let surl = '/my';
                 if (search){
                     const _q = qs.parse(search.substring(1));
                     const { url } = _q;
@@ -78,7 +78,10 @@ const BaseNavBar = ({history,location,match}: { history: any; location: any; mat
             });
             return;
         }
-        history.go(-1);
+        // history.go(-1);
+        history.push({
+            pathname: '/my',
+        });
     }
 
     const handleShare = () => {

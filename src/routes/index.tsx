@@ -6,6 +6,8 @@ import Setting from "@/pages/Setting";
 import ChangePassword from "@/pages/ChangePassword";
 import Details from "@/pages/Details";
 import Apply from "@/pages/Apply";
+import Order from "@/pages/Order";
+import About from "@/pages/About";
 
 console.log(`process.env.API: ${typeof process.env.API}`)
 
@@ -77,6 +79,26 @@ const routes = [
       showBack: true,
     },
     component: Apply,
+  },
+  {
+    path: "/order",
+    exact: true,
+    header: {
+      title: "我的借款",
+      showTitle: true,
+      showBack: true,
+    },
+    component: Order,
+  },
+  {
+    path: "/about",
+    exact: true,
+    header: {
+      title: "关于我们",
+      showTitle: true,
+      showBack: true,
+    },
+    component: About,
   },
 ];
 

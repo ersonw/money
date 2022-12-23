@@ -1,0 +1,49 @@
+.order{
+  .list-item{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    .item-card{
+      width: 90%;
+      background-color: white;
+      box-shadow: 0 0 12px rgb(0 0 0 / 20%);
+      border-radius: 5px;
+      .header{
+        font-size: .8em;
+        font-weight: bold;
+      }
+      .body{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .item{
+          >p{
+            font-weight: 450;
+            font-size: 1.12em;
+          }
+          >span{
+            color: #9c9c9c;
+            font-size: .72em;
+          }
+        }
+      }
+      .card-footer{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        >span{
+          color: #9c9c9c;
+        }
+        >div{
+          background-color: #f40;
+          color: white;
+          font-size: .8em;
+        }
+      }
+    }
+  }
+}

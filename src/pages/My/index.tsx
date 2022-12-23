@@ -1,11 +1,13 @@
 import Background from "@/components/Background";
-import React from "react";
+import React, {useState} from "react";
 import Footer from "@/components/Layouts/Footer";
 import './index.less';
 // @ts-ignore
 import AntDesign from "react-native-vector-icons/dist/AntDesign";
+// @ts-ignore
+import Feather from "react-native-vector-icons/dist/Feather";
 import defaultAvatar from '@/assets/images/default_avatar.svg';
-import { Grid } from 'antd-mobile';
+import {ErrorBlock, Grid} from 'antd-mobile';
 import {GridItem} from "antd-mobile/es/components/grid/grid";
 
 import wallet from '@/assets/images/icons/wallet.png';
@@ -18,11 +20,31 @@ import question from '@/assets/images/icons/question.png';
 import account from '@/assets/images/icons/account.png';
 import advertise from '@/assets/images/advertise.png';
 import advertise2 from '@/assets/images/advertise2.png';
+import useFetchData from "@/utils/useFetchData";
 
 const My = (props: { history: any; location: any; match: any; })=>{
     const {history} = props;
+    const [hide,setHide] = useState(false);
+
+    const {data,loading, onReload, error, } = useFetchData(`/api/my/get`,{money: 0,balance: 0});
+    if (error){
+        return <ErrorBlock fullPage />
+    }
+    const {money,balance} = data;
+    // if (!money||!balance){
+    //     return <ErrorBlock fullPage />
+    // }
     const goSetting = ()=>{
         history.push({pathname: '/setting'});
+    };
+    const goDetails = ()=>{
+        history.push({pathname: '/details'});
+    };
+    const goOrder = ()=>{
+        history.push({pathname: '/order'});
+    };
+    const goAbout = ()=>{
+        history.push({pathname: '/about'});
     };
     return (
         <>
@@ -67,19 +89,33 @@ const My = (props: { history: any; location: any; match: any; })=>{
                 <div  className="preview">
                     <div className='box'>
                         <div  className="name-row">
-                            <div  className="balance">
-                                账户余额（元)
-                                <AntDesign
-                                    name="eyeo"
-                                    size={20}
-                                    color="currentColor"
-                                />
+                            <div className="balance">
+                                <div>
+                                    账户余额（元)
+                                    {hide?(
+                                        <Feather
+                                            name="eye-off"
+                                            size={13}
+                                            color="currentColor"
+                                            onClick={()=>setHide(false)}
+                                        />
+                                    ):(
+                                        <Feather
+                                            name="eye"
+                                            size={13}
+                                            color="currentColor"
+                                            onClick={()=>setHide(true)}
+                                        />
+                                    )}
+                                </div>
+                                <div>
+                                    {hide?'--.-- ':balance.toLocaleString()}
+                                </div>
                             </div>
-                            <div  className="recent">最近借款（元）</div>
-                        </div>
-                        <div  className="value-row">
-                            <div  className="balance">0</div>
-                            <div  className="recent"> 0</div>
+                            <div className="recent">
+                                <span  >最近借款（元）</span>
+                                <div>{hide?'--.-- ':money.toLocaleString()}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -99,12 +135,14 @@ const My = (props: { history: any; location: any; match: any; })=>{
                         </GridItem>
                         <GridItem
                             className='grid-item'
+                            onClick={goDetails}
                         >
                             <img src={mine} alt=''/>
                             <span>我的资料</span>
                         </GridItem>
                         <GridItem
                             className='grid-item'
+                            onClick={goOrder}
                         >
                             <img src={information} alt=''/>
                             <span>借款信息</span>
@@ -117,6 +155,7 @@ const My = (props: { history: any; location: any; match: any; })=>{
                         </GridItem>
                         <GridItem
                             className='grid-item'
+                            onClick={goSetting}
                         >
                             <img src={account} alt=''/>
                             <span>账号设置</span>
@@ -135,6 +174,7 @@ const My = (props: { history: any; location: any; match: any; })=>{
                         </GridItem>
                         <GridItem
                             className='grid-item'
+                            onClick={goAbout}
                         >
                             <img src={about} alt=''/>
                             <span>关于我们</span>
