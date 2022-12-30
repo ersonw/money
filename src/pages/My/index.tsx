@@ -21,6 +21,7 @@ import account from '@/assets/images/icons/account.png';
 import advertise from '@/assets/images/advertise.png';
 import advertise2 from '@/assets/images/advertise2.png';
 import useFetchData from "@/utils/useFetchData";
+import Question from "@/pages/Question";
 
 const My = (props: { history: any; location: any; match: any; })=>{
     const {history} = props;
@@ -45,6 +46,9 @@ const My = (props: { history: any; location: any; match: any; })=>{
     };
     const goAbout = ()=>{
         history.push({pathname: '/about'});
+    };
+    const goQuestion = ()=>{
+        history.push({pathname: '/question'});
     };
     return (
         <>
@@ -168,6 +172,7 @@ const My = (props: { history: any; location: any; match: any; })=>{
                         </GridItem>
                         <GridItem
                             className='grid-item'
+                            onClick={goQuestion}
                         >
                             <img src={question} alt=''/>
                             <span>常见问题</span>

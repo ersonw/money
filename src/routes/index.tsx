@@ -8,6 +8,8 @@ import Details from "@/pages/Details";
 import Apply from "@/pages/Apply";
 import Order from "@/pages/Order";
 import About from "@/pages/About";
+import Question from "@/pages/Question";
+import Contract from "@/pages/Contract";
 
 console.log(`process.env.API: ${typeof process.env.API}`)
 
@@ -99,6 +101,26 @@ const routes = [
       showBack: true,
     },
     component: About,
+  },
+  {
+    path: "/question",
+    exact: true,
+    header: {
+      title: "常见问题",
+      showTitle: true,
+      showBack: true,
+    },
+    component: Question,
+  },
+  {
+    path: "/contract",
+    exact: true,
+    header: {
+      title: "借款合同",
+      showTitle: true,
+      showBack: true,
+    },
+    component: Contract,
   },
 ];
 

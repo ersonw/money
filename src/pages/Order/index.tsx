@@ -2,7 +2,7 @@ import './index.less';
 import {Card, Empty, ErrorBlock, List} from "antd-mobile";
 import useFetchData from "@/utils/useFetchData";
 import React, {useEffect, useState} from "react";
-const Order = () =>{
+const Order = ({history,}: { history: any;}) =>{
     const [page,setPage] = useState(1);
     const {data,loading, onReload, error, } = useFetchData(`/api/order/${page}`,{list:[],total: 0});
     if (error){
@@ -55,7 +55,12 @@ const Order = () =>{
                                     {`${new Date(item.addTime).getFullYear()}-${new Date(item.addTime).getMonth()+1}-${new Date(item.addTime).getDate()}`}
                                 </span>
                                 <div
-                                    onClick={()=>{}}
+                                    onClick={()=>{
+                                        history.push({
+                                            pathname: '/contract',
+                                            search: `?orderNo=${item.orderNo}`,
+                                        });
+                                    }}
                                 >
                                     查看合同
                                 </div>
